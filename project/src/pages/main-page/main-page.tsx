@@ -74,7 +74,7 @@ function MainPage(mainPageProps: MainPageProps): JSX.Element {
             <div className="cities__places-list places__list tabs__content">
               {offers.slice(0, cardsCount).map((offer) => (
                 <OfferCard
-                  key={null}
+                  key={offer.id}
                   cardImage={offer.cardImage}
                   price={offer.price}
                   rating={offer.rating}

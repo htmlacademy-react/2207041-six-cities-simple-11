@@ -9,6 +9,7 @@ enum AppSettings {
 
 const offers: Offer[] = [
   {
+    id:1,
     cardImage:{src:'img/apartment-01.jpg', width:260, height:200, alt:'Place imаge'},
     price:{cost:120, additionalInfo:DayNight.Night},
     rating:Rating.Four,
@@ -16,6 +17,7 @@ const offers: Offer[] = [
     type:ApartmentType.Apartment
   },
   {
+    id:2,
     cardImage:{src:'img/room.jpg', width:260, height:200, alt:'Place imаge'},
     price:{cost:80, additionalInfo:DayNight.Night},
     rating:Rating.Four,
@@ -23,6 +25,7 @@ const offers: Offer[] = [
     type:ApartmentType.PrivateRoom
   },
   {
+    id:3,
     cardImage:{src:'img/apartment-02.jpg', width:260, height:200, alt:'Place imаge'},
     price:{cost:132, additionalInfo:DayNight.Night},
     rating:Rating.Four,
@@ -30,6 +33,7 @@ const offers: Offer[] = [
     type:ApartmentType.Apartment
   },
   {
+    id:4,
     cardImage:{src:'img/apartment-03.jpg', width:260, height:200, alt:'Place imаge'},
     price:{cost:180, additionalInfo:DayNight.Night},
     rating:Rating.Five,
@@ -37,6 +41,7 @@ const offers: Offer[] = [
     type:ApartmentType.Apartment
   },
   {
+    id:5,
     cardImage:{src:'img/room.jpg', width:260, height:200, alt:'Place imаge'},
     price:{cost:80, additionalInfo:DayNight.Night},
     rating:Rating.Four,
