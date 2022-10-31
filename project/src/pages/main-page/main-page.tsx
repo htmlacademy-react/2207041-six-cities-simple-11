@@ -1,8 +1,5 @@
 import OfferCard, { Offer } from '../../components/offer-card/offer-card';
-
-const tabIndex = {
-  tabIndex: 0
-};
+import { tabIndex } from '../../types/constants';
 
 type MainPageProps = {
   cardsCount: number;
