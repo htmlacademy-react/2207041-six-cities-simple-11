@@ -1,4 +1,8 @@
+import { useParams } from 'react-router-dom';
+
 function PropertyPage(): JSX.Element {
+  const params = useParams();
+  const id: string = params.id ?? ''; // Добавлено чтобы в будущем делать выборку из списка по id b отображения
   return(
     <html lang="en">
       <head>
@@ -82,7 +86,7 @@ function PropertyPage(): JSX.Element {
                     <span>Premium</span>
                   </div>
                   <div className="property__name-wrapper">
-                    <h1 className="property__name">
+                    <h1 className="property__name" title={`offer/${id}`}>
                       Beautiful &amp; luxurious studio at great location
                     </h1>
                   </div>
