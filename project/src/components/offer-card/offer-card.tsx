@@ -1,52 +1,27 @@
-export enum Rating {
-  One = '20%',
-  Two = '40%',
-  Three = '60%',
-  Four = '80%',
-  Five = '100%'
-}
-
-export enum DayNight {
-  Day = '',
-  Night = 'night'
-}
-
-export enum ApartmentType {
-  Apartment = 'Apartment',
-  PrivateRoom = 'Private room'
-}
-
-type CardImade = {
-  src: string;
-  width: number;
-  height: number;
-  alt: string;
-}
-
-type Price = {
-  cost: number;
-  additionalInfo: DayNight;
-};
-
-export type Offer = {
-  id?: number;
-  cardImage: CardImade;
-  price: Price;
-  rating: Rating;
-  description: string;
-  type: ApartmentType;
-};
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../types/constants';
+import { Offer } from '../../types/types';
 
 function OfferCard(offer: Offer): JSX.Element {
+  const [over, setActive] = useState(false);
+
+  if(over) {
+    //
+  }
+  else {
+    //
+  }
+
   return(
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseOver={()=>setActive(true)} onMouseLeave={()=>setActive(false)} >
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="/#">
+        <Link to={`${AppRoute.Properties}${offer.id}`}>
           <img className="place-card__image" src={offer.cardImage.src} width={offer.cardImage.width} height={offer.cardImage.height} alt={offer.cardImage.alt}></img>
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -63,7 +38,7 @@ function OfferCard(offer: Offer): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/#">{offer.description}</a>
+          <Link to={`${AppRoute.Properties}${offer.id}`}>{offer.description}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
