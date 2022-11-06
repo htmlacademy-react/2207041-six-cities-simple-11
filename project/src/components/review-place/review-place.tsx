@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { reviews } from '../../mocks/reviews';
 import ReviewForm from '../review-form/review-form';
-import {format} from 'date-fns';
 
 function ReviewPlace():JSX.Element {
   const params = useParams();
@@ -32,7 +31,7 @@ function ReviewPlace():JSX.Element {
                 <p className="reviews__text">
                   {item.description}
                 </p>
-                <time className="reviews__time" dateTime={item.reviewDate.toISOString()}>{format(item.reviewDate, 'MMMM yyyy')}</time>
+                <time className="reviews__time" dateTime={item.reviewDate.toISOString()}>{item.reviewDate.toLocaleDateString()}</time>
               </div>
             </li>
           ))}
