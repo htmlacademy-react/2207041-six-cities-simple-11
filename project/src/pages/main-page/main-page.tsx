@@ -1,14 +1,10 @@
-import OfferCard, { Offer } from '../../components/offer-card/offer-card';
+import OfferCardList from '../../components/offer-card-list/offer-card-list';
+import { TopOffer } from '../../types/types';
 import { tabIndex } from '../../types/constants';
 
-type MainPageProps = {
-  cardsCount: number;
-  offers: Offer[];
-}
-
-function MainPage(mainPageProps: MainPageProps): JSX.Element {
-  const cardsCount = mainPageProps.cardsCount;
-  const offers = mainPageProps.offers;
+function MainPage(topOffer: TopOffer): JSX.Element {
+  const cardsCount = topOffer.cardsCount;
+  const offers = topOffer.offers;
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -68,18 +64,7 @@ function MainPage(mainPageProps: MainPageProps): JSX.Element {
                 <li className="places__option" {...tabIndex}>Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {offers.slice(0, cardsCount).map((offer) => (
-                <OfferCard
-                  key={offer.id}
-                  cardImage={offer.cardImage}
-                  price={offer.price}
-                  rating={offer.rating}
-                  description={offer.description}
-                  type={offer.type}
-                />
-              ))}
-            </div>
+            <OfferCardList cardsCount={cardsCount} offers={offers} ></OfferCardList>
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>
