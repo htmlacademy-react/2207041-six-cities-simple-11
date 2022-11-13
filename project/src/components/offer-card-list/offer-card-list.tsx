@@ -5,6 +5,8 @@ type OfferCardProps = {
   topOffer: TopOffer;
   onItemOver(offerId: number): void;
   onItemLeave(): void;
+  className: string;
+  classOfferPrefix:string;
 }
 
 function OfferCardList(offerCardProps: OfferCardProps): JSX.Element {
@@ -12,13 +14,14 @@ function OfferCardList(offerCardProps: OfferCardProps): JSX.Element {
   const offers = offerCardProps.topOffer.offers;
 
   return(
-    <div className="cities__places-list places__list tabs__content">
+    <div className={offerCardProps.className}>
       {offers.slice(0, cardsCount).map((offer) => (
         <OfferCard
           key={offer.id}
           offer={offer}
           onItemOver={() => offerCardProps.onItemOver(offer.id)}
           onItemLeave={() => offerCardProps.onItemLeave()}
+          classPrefix={offerCardProps.classOfferPrefix}
         />
       ))}
     </div>

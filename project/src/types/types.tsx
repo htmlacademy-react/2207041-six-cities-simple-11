@@ -20,6 +20,7 @@ export type Offer = {
   rating: Rating;
   description: string;
   type: ApartmentType;
+  mark?: string;
 };
 
 export type TopOffer = {

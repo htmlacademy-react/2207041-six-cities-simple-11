@@ -1,11 +1,36 @@
 import { useParams } from 'react-router-dom';
 import ReviewPlace from '../../components/review-place/review-place';
+import { CITIES, NEAR_POINTS } from '../../mocks/coordinates';
 import { OFFERS } from '../../mocks/offers';
+import Map from '../../components/map/map';
+import OfferCardList from '../../components/offer-card-list/offer-card-list';
+import { Point, TopOffer } from '../../types/types';
+import { NEAR_OFFERS } from '../../mocks/near_offers';
+import { useState } from 'react';
 
 function PropertyPage(): JSX.Element {
   const params = useParams();
   const id: string = params.id ?? ''; // Добавлено чтобы в будущем делать выборку из списка по id b отображения
   const offer = OFFERS.find((item) => item.id.toString() === id);
+  const city = CITIES[0];
+  const points = NEAR_POINTS;
+  const topOffer: TopOffer = {cardsCount: NEAR_OFFERS.length, offers: NEAR_OFFERS};
+  const [selectedPoint, setSelectedPoint] = useState<Point>();
+
+  const onItemOver = (offerId: number) => {
+    const currentPoint = NEAR_POINTS.find((point) =>
+      point.offerId === offerId,
+    );
+    setSelectedPoint(currentPoint);
+  };
+
+  const onItemLeave = () => {
+    const currentPoint = NEAR_POINTS.find((point) =>
+      point.offerId === -1,
+    );
+    setSelectedPoint(currentPoint);
+  };
+
   return(
     <html lang="en">
       <head>
@@ -176,93 +201,12 @@ function PropertyPage(): JSX.Element {
                   <ReviewPlace />
                 </div>
               </div>
-              <section className="property__map map"></section>
+              <Map className="property__map map" city={city} points={points} selectedPoint={selectedPoint}></Map>
             </section>
             <div className="container">
               <section className="near-places places">
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>
-                <div className="near-places__list places__list">
-                  <article className="near-places__card place-card">
-                    <div className="near-places__image-wrapper place-card__image-wrapper">
-                      <a href="/#">
-                        <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place imаge"/>
-                      </a>
-                    </div>
-                    <div className="place-card__info">
-                      <div className="place-card__price-wrapper">
-                        <div className="place-card__price">
-                          <b className="place-card__price-value">&euro;80</b>
-                          <span className="place-card__price-text">&#47;&nbsp;night</span>
-                        </div>
-                      </div>
-                      <div className="place-card__rating rating">
-                        <div className="place-card__stars rating__stars">
-                          <span style={{width: '80%'}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <h2 className="place-card__name">
-                        <a href="/#">Wood and stone place</a>
-                      </h2>
-                      <p className="place-card__type">Private room</p>
-                    </div>
-                  </article>
-
-                  <article className="near-places__card place-card">
-                    <div className="near-places__image-wrapper place-card__image-wrapper">
-                      <a href="/#">
-                        <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place imаge"/>
-                      </a>
-                    </div>
-                    <div className="place-card__info">
-                      <div className="place-card__price-wrapper">
-                        <div className="place-card__price">
-                          <b className="place-card__price-value">&euro;132</b>
-                          <span className="place-card__price-text">&#47;&nbsp;night</span>
-                        </div>
-                      </div>
-                      <div className="place-card__rating rating">
-                        <div className="place-card__stars rating__stars">
-                          <span style={{width: '80%'}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <h2 className="place-card__name">
-                        <a href="/#">Canal View Prinsengracht</a>
-                      </h2>
-                      <p className="place-card__type">Apartment</p>
-                    </div>
-                  </article>
-
-                  <article className="near-places__card place-card">
-                    <div className="place-card__mark">
-                      <span>Premium</span>
-                    </div>
-                    <div className="near-places__image-wrapper place-card__image-wrapper">
-                      <a href="/#">
-                        <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place imаge"/>
-                      </a>
-                    </div>
-                    <div className="place-card__info">
-                      <div className="place-card__price-wrapper">
-                        <div className="place-card__price">
-                          <b className="place-card__price-value">&euro;180</b>
-                          <span className="place-card__price-text">&#47;&nbsp;night</span>
-                        </div>
-                      </div>
-                      <div className="place-card__rating rating">
-                        <div className="place-card__stars rating__stars">
-                          <span style={{width: '100%'}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <h2 className="place-card__name">
-                        <a href="/#">Nice, cozy, warm big bed apartment</a>
-                      </h2>
-                      <p className="place-card__type">Apartment</p>
-                    </div>
-                  </article>
-                </div>
+                <OfferCardList className="near-places__list places__list" classOfferPrefix="near-places" topOffer={topOffer} onItemOver={(offerId: number) => onItemOver(offerId)} onItemLeave={() => onItemLeave} ></OfferCardList>
               </section>
             </div>
           </main>

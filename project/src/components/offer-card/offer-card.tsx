@@ -1,22 +1,22 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../types/constants';
 import { Offer } from '../../types/types';
+import PlaceCardMark from '../place-card-mark/place-card-mark';
 
 type OfferCardProps = {
   offer: Offer;
   onItemOver(offerId: number): void;
   onItemLeave(): void;
+  classPrefix: string;
 }
 
 function OfferCard(offerCardProps: OfferCardProps): JSX.Element {
   const offer = offerCardProps.offer;
 
   return(
-    <article className="cities__card place-card" onMouseOver={() => offerCardProps.onItemOver(offer.id)} onMouseLeave={() => offerCardProps.onItemLeave()} >
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className={`${offerCardProps.classPrefix}__card place-card`} onMouseOver={() => offerCardProps.onItemOver(offer.id)} onMouseLeave={() => offerCardProps.onItemLeave()} >
+      <PlaceCardMark offer={offer} />
+      <div className={`${offerCardProps.classPrefix}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Properties}${offer.id}`}>
           <img className="place-card__image" src={offer.cardImage.src} width={offer.cardImage.width} height={offer.cardImage.height} alt={offer.cardImage.alt}></img>
         </Link>
