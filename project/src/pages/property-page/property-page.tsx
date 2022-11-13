@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import ReviewPlace from '../../components/review-place/review-place';
-import { offers } from '../../mocks/offers';
+import { OFFERS } from '../../mocks/offers';
 
 function PropertyPage(): JSX.Element {
   const params = useParams();
   const id: string = params.id ?? ''; // Добавлено чтобы в будущем делать выборку из списка по id b отображения
-  const offer = offers.find((item) => item.id.toString() === id);
+  const offer = OFFERS.find((item) => item.id.toString() === id);
   return(
     <html lang="en">
       <head>
