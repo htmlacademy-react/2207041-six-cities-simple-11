@@ -8,7 +8,7 @@ import 'leaflet/dist/leaflet.css';
 export type MapProps = {
   city: CityLocation;
   points: Points;
-  selectedPoint: Point | undefined;
+  selectedPoint?: Point;
   className: string;
 };
 
