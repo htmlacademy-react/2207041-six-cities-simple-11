@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { offers } from './mocks/offers';
+import { OFFERS } from './mocks/offers';
 
 enum AppSettings {
   CardsCount = 5
@@ -16,7 +16,7 @@ if(elRoot) {
     <React.StrictMode>
       <App
         cardsCount = {AppSettings.CardsCount}
-        offers={offers}
+        offers={OFFERS}
       />
     </React.StrictMode>,
   );

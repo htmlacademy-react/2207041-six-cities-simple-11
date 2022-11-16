@@ -40,3 +40,26 @@ export type Review = {
   reviewDate: Date;
   offerId: number;
 }
+
+export type City = {
+  id: number;
+  title: string;
+};
+
+export type CityLocation = {
+  city: City;
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
+export type Point = {
+  offerId: number;
+  title: string;
+  latitude: number;
+  longitude: number;
+};
+
+export type Points = Point[];
+export type Cities = City[];
+export type CitiesLocation = CityLocation[];

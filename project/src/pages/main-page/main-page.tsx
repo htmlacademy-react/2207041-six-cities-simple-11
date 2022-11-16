@@ -1,10 +1,39 @@
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
-import { TopOffer } from '../../types/types';
+import { Point, TopOffer } from '../../types/types';
 import { tabIndex } from '../../types/constants';
+import { CITIES, POINTS } from '../../mocks/coordinates';
+import Map from '../../components/map/map';
+//import LocationList from '../../components/location-list/location-list';
+import { useState } from 'react';
 
 function MainPage(topOffer: TopOffer): JSX.Element {
-  const cardsCount = topOffer.cardsCount;
-  const offers = topOffer.offers;
+  //const cardsCount = topOffer.cardsCount;
+  //const offers = topOffer.offers;
+  const city = CITIES[0];
+  const points = POINTS;
+  //const selectedPoint1 = POINTS[0];
+  const [selectedPoint, setSelectedPoint] = useState<Point>();
+
+  const onItemOver = (offerId: number) => {
+    const currentPoint = POINTS.find((point) =>
+      point.offerId === offerId,
+    );
+    setSelectedPoint(currentPoint);
+  };
+
+  const onItemLeave = () => {
+    const currentPoint = POINTS.find((point) =>
+      point.offerId === -1,
+    );
+    setSelectedPoint(currentPoint);
+  };
+
+  /*
+  const fieldInputChangeHandle: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
+    const {name, value} = evt.target;
+    setFormData({...formData, [name]: value});
+  };*/
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -64,10 +93,10 @@ function MainPage(topOffer: TopOffer): JSX.Element {
                 <li className="places__option" {...tabIndex}>Top rated first</li>
               </ul>
             </form>
-            <OfferCardList cardsCount={cardsCount} offers={offers} ></OfferCardList>
+            <OfferCardList topOffer={topOffer} onItemOver={(offerId: number) => onItemOver(offerId)} onItemLeave={() => onItemLeave} ></OfferCardList>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map city={city} points={points} selectedPoint={selectedPoint}></Map>
           </div>
         </div>
       </div>

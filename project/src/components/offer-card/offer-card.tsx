@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../types/constants';
 import { Offer } from '../../types/types';
 
-function OfferCard(offer: Offer): JSX.Element {
-  const [over, setActive] = useState(false);
+type OfferCardProps = {
+  offer: Offer;
+  onItemOver(offerId: number): void;
+  onItemLeave(): void;
+}
 
-  if(over) {
-    //
-  }
-  else {
-    //
-  }
+function OfferCard(offerCardProps: OfferCardProps): JSX.Element {
+  const offer = offerCardProps.offer;
 
   return(
-    <article className="cities__card place-card" onMouseOver={()=>setActive(true)} onMouseLeave={()=>setActive(false)} >
+    <article className="cities__card place-card" onMouseOver={() => offerCardProps.onItemOver(offer.id)} onMouseLeave={() => offerCardProps.onItemLeave()} >
       <div className="place-card__mark">
         <span>Premium</span>
       </div>

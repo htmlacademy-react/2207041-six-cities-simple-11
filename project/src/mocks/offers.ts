@@ -2,7 +2,7 @@ import { ApartmentType, DayNight, Rating } from '../types/constants';
 import { Offer } from '../types/types';
 
 
-export const offers: Offer[] = [
+export const OFFERS: Offer[] = [
   {
     id:1,
     cardImage:{ className:'place-card__image', src:'img/apartment-01.jpg', width:260, height:200, alt:'Place imаge'},

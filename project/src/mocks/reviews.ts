@@ -1,7 +1,7 @@
 import { Rating } from '../types/constants';
 import { Review } from '../types/types';
 
-export const reviews: Review[] = [
+export const REVIEWS: Review[] = [
   {
     id:1,
     visitor: {avatar:{className:'reviews__avatar user__avatar', src:'img/avatar-max.jpg', width:54, height:54, alt:'Reviews avatar'}, name:'Max'},
