@@ -9,7 +9,8 @@ export const OFFERS: Offer[] = [
     price:{cost:120, additionalInfo:DayNight.Night},
     rating:Rating.Four,
     description:'Beautiful &amp; luxurious apartment at great location',
-    type:ApartmentType.Apartment
+    type:ApartmentType.Apartment,
+    mark:'Premium'
   },
   {
     id:2,
@@ -33,7 +34,8 @@ export const OFFERS: Offer[] = [
     price:{cost:180, additionalInfo:DayNight.Night},
     rating:Rating.Five,
     description:'Nice, cozy, warm big bed apartment',
-    type:ApartmentType.Apartment
+    type:ApartmentType.Apartment,
+    mark:'Premium'
   },
   {
     id:5,
