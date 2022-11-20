@@ -14,7 +14,10 @@ function OfferCard(offerCardProps: OfferCardProps): JSX.Element {
   const offer = offerCardProps.offer;
 
   return(
-    <article className={`${offerCardProps.classPrefix}__card place-card`} onMouseOver={() => offerCardProps.onItemOver(offer.id)} onMouseLeave={() => offerCardProps.onItemLeave()} >
+    <article className={`${offerCardProps.classPrefix}__card place-card`}
+      onMouseOver={() => offerCardProps.onItemOver(offer.id)}
+      onMouseLeave={() => offerCardProps.onItemLeave()}
+    >
       <PlaceCardMark offer={offer} />
       <div className={`${offerCardProps.classPrefix}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Properties}${offer.id}`}>

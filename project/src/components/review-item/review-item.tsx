@@ -1,6 +1,10 @@
 import { Review } from '../../types/types';
 
-function ReviewItem(item: Review):JSX.Element {
+type ReviewProps = {
+  item: Review;
+}
+
+function ReviewItem({item}: ReviewProps):JSX.Element {
   return(
     <li className="reviews__item" key={item.id}>
       <div className="reviews__user user">

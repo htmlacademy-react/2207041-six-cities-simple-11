@@ -206,7 +206,12 @@ function PropertyPage(): JSX.Element {
             <div className="container">
               <section className="near-places places">
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>
-                <OfferCardList className="near-places__list places__list" classOfferPrefix="near-places" topOffer={topOffer} onItemOver={(offerId: number) => onItemOver(offerId)} onItemLeave={() => onItemLeave} ></OfferCardList>
+                <OfferCardList className="near-places__list places__list"
+                  classOfferPrefix="near-places"
+                  topOffer={topOffer}
+                  onItemOver={(offerId: number) => onItemOver(offerId)}
+                  onItemLeave={() => onItemLeave}
+                />
               </section>
             </div>
           </main>

@@ -2,7 +2,7 @@ import { CitiesLocation, Points } from '../types/types';
 
 export const CITIES: CitiesLocation = [
   {
-    city: { id: 1, title: 'Paris'},
+    city: { id: 1, title: 'Paris' },
     latitude: 52.3909553943508,
     longitude: 4.85309666406198,
     zoom: 10
