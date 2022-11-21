@@ -61,6 +61,11 @@ export type Point = {
   longitude: number;
 };
 
+export type CityOffer = {
+  city: City;
+  offers: Offer[];
+}
+
 export type Points = Point[];
 export type Cities = City[];
 export type CitiesLocation = CityLocation[];

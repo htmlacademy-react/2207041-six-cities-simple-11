@@ -15,12 +15,7 @@ function ReviewPlace():JSX.Element {
           offerReviews.map((item) => (
             <ReviewItem
               key={item.id}
-              id={item.id}
-              description={item.description}
-              offerId={item.offerId}
-              rating={item.rating}
-              visitor={item.visitor}
-              reviewDate={item.reviewDate}
+              item={item}
             />
           ))}
       </ul>
