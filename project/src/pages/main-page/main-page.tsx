@@ -1,6 +1,5 @@
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
 import { Point, TopOffer } from '../../types/types';
-import { tabIndex } from '../../types/constants';
 import { CITIES, POINTS } from '../../mocks/coordinates';
 import Map from '../../components/map/map';
 import { useState } from 'react';
