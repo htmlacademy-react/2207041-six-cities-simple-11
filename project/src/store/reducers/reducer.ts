@@ -3,6 +3,7 @@ import { CITIES } from '../../mocks/coordinates';
 import { OFFERS } from '../../mocks/offers';
 import { CityOffer } from '../../types/types';
 import {changeCity, fillOffers, sortOffersPriceHighLow, sortOffersPriceLowHigh, sortOffersTopRateFirst} from '../actions/actions';
+import {changeCity, fillOffers} from '../actions/actions';
 
 const initialState: CityOffer = {
   city: CITIES[0].city,
