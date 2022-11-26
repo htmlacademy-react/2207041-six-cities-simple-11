@@ -40,13 +40,6 @@ function MainPage(topOffer: TopOffer): JSX.Element {
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{topOfferCity.offers.length} places to stay in {selectedCity.title}</b>
             <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" {...tabIndex}>
-                Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
               <PlaceOptionList />
             </form>
             <OfferCardList className="cities__places-list places__list tabs__content"
