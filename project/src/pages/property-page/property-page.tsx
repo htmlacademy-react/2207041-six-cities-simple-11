@@ -15,20 +15,17 @@ function PropertyPage(): JSX.Element {
   const city = CITIES[0];
   const points = NEAR_POINTS;
   const topOffer: TopOffer = {cardsCount: NEAR_OFFERS.length, offers: NEAR_OFFERS};
-  const [selectedPoint, setSelectedPoint] = useState<Point>();
+  const [selectedPoint, setSelectedPoint] = useState<Point|null>(null);
 
   const onItemOver = (offerId: number) => {
     const currentPoint = NEAR_POINTS.find((point) =>
       point.offerId === offerId,
     );
-    setSelectedPoint(currentPoint);
+    setSelectedPoint(currentPoint ?? null);
   };
 
   const onItemLeave = () => {
-    const currentPoint = NEAR_POINTS.find((point) =>
-      point.offerId === -1,
-    );
-    setSelectedPoint(currentPoint);
+    setSelectedPoint(null);
   };
 
   return(

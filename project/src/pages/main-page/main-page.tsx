@@ -6,6 +6,7 @@ import Map from '../../components/map/map';
 import { useState } from 'react';
 import LocationList from '../../components/location-list/location-list';
 import { useAppSelector } from '../../hooks/useApp';
+import PlaceOptionList from '../../components/place-option-list/place-option-list';
 
 function MainPage(topOffer: TopOffer): JSX.Element {
   const selectedCity = useAppSelector((state) => state.city);
@@ -14,20 +15,17 @@ function MainPage(topOffer: TopOffer): JSX.Element {
   const currentCity = CITIES.find((item) => item.city.id === selectedCity.id);
   const city = currentCity ? currentCity : CITIES[0];
   const points = POINTS;
-  const [selectedPoint, setSelectedPoint] = useState<Point>();
+  const [selectedPoint, setSelectedPoint] = useState<Point|null>(null);
 
   const onItemOver = (offerId: number) => {
     const currentPoint = POINTS.find((point) =>
       point.offerId === offerId,
     );
-    setSelectedPoint(currentPoint);
+    setSelectedPoint(currentPoint ?? null);
   };
 
   const onItemLeave = () => {
-    const currentPoint = POINTS.find((point) =>
-      point.offerId === -1,
-    );
-    setSelectedPoint(currentPoint);
+    setSelectedPoint(null);
   };
 
   return (
@@ -49,14 +47,14 @@ function MainPage(topOffer: TopOffer): JSX.Element {
                   <use xlinkHref="#icon-arrow-select"></use>
                 </svg>
               </span>
-              <ul className="places__options places__options--custom places__options--opened">
-                <li className="places__option places__option--active" {...tabIndex}>Popular</li>
-                <li className="places__option" {...tabIndex}>Price: low to high</li>
-                <li className="places__option" {...tabIndex}>Price: high to low</li>
-                <li className="places__option" {...tabIndex}>Top rated first</li>
-              </ul>
+              <PlaceOptionList />
             </form>
-            <OfferCardList className="cities__places-list places__list tabs__content" classOfferPrefix="cities" topOffer={topOfferCity} onItemOver={(offerId: number) => onItemOver(offerId)} onItemLeave={() => onItemLeave} ></OfferCardList>
+            <OfferCardList className="cities__places-list places__list tabs__content"
+              classOfferPrefix="cities"
+              topOffer={topOfferCity}
+              onItemOver={(offerId: number) => onItemOver(offerId)}
+              onItemLeave={onItemLeave}
+            />
           </section>
           <div className="cities__right-section">
             <Map className="cities__map map" city={city} points={points} selectedPoint={selectedPoint}></Map>
