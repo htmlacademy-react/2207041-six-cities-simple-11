@@ -1,5 +1,3 @@
-import { ApartmentType, DayNight, Rating } from './constants';
-
 type CardImage = {
   className: string;
   src: string;
@@ -8,19 +6,29 @@ type CardImage = {
   alt: string;
 }
 
-type Price = {
-  cost: number;
-  additionalInfo: DayNight;
-};
+type Host = {
+  id: number;
+  name: string;
+  isPro: boolean;
+  avatarUrl: string;
+}
 
 export type Offer = {
-  id: number;
-  cardImage: CardImage;
-  price: Price;
-  rating: Rating;
+  city: City;
+  previewImage: string;
+  images: string[];
+  title: string;
+  isPremium: boolean;
+  rating: number;
+  type: string;
+  bedrooms: number;
+  maxAdults: number;
+  price: number;
+  goods: string[];
+  host: Host;
   description: string;
-  type: ApartmentType;
-  mark?: string;
+  location: Location;
+  id: number;
 };
 
 export type TopOffer = {
@@ -36,19 +44,18 @@ type Visitor = {
 export type Review = {
   id: number;
   visitor: Visitor;
-  rating: Rating;
+  rating: number;
   description: string;
   reviewDate: Date;
   offerId: number;
 }
 
 export type City = {
-  id: number;
-  title: string;
+  name: string;
+  location: Location;
 };
 
-export type CityLocation = {
-  city: City;
+export type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -61,11 +68,17 @@ export type Point = {
   longitude: number;
 };
 
-export type CityOffer = {
-  city: City;
-  offers: Offer[];
-}
+export type AuthData = {
+  login: string;
+  password: string;
+};
+
+export type UserData = {
+  id: number;
+  email: string;
+  token: string;
+};
 
 export type Points = Point[];
 export type Cities = City[];
-export type CitiesLocation = CityLocation[];
+export type Offers = Offer[];

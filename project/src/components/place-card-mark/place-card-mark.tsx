@@ -8,9 +8,9 @@ function PlaceCardMark(props: PlaceCardMarkProps): JSX.Element {
   return(
     <div>
       {
-        props.offer.mark &&
+        props.offer.isPremium &&
         <div className="place-card__mark">
-          <span>{props.offer.mark}</span>
+          <span>Premium</span>
         </div>
       }
     </div>
