@@ -33,7 +33,15 @@ export enum ApartmentType {
 }
 
 export const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+  '../img/pin.svg';
 
 export const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  '../img/pin-active.svg';
+
+export enum SortMenu {
+    Popular = 'Popular',
+    PriceLowHigh = 'Price: low to high',
+    PriceHighLow = 'Price: high to low',
+    TopRateFirst = 'Top rated first',
+    Default = 'Popular'
+  }
