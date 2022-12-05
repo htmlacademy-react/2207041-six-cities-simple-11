@@ -12,9 +12,9 @@ function LocationList(locationListProps: LocationListProps): JSX.Element {
       <ul className="locations__list tabs__list">
         {CITIES.map((item) => (
           <Location
-            key={item.city.id}
-            city={item.city}
-            selectedCityId={locationListProps.selectedCity.id}
+            key={item.name}
+            city={item}
+            selectedCity={locationListProps.selectedCity.name}
           />
         ))}
       </ul>

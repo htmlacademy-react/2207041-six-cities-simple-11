@@ -1,3 +1,9 @@
+export enum AppSettings {
+  CardsCount = 5,
+  CardImageWidth = 260,
+  CardImageHeight = 200
+}
+
 export const tabIndex = {
   tabIndex: 0
 };
@@ -14,24 +20,6 @@ export enum AppRoute {
   PropertyNotLoggedPage = '/property-not-logged-page'
 }
 
-export enum Rating {
-  One = '20%',
-  Two = '40%',
-  Three = '60%',
-  Four = '80%',
-  Five = '100%'
-}
-
-export enum DayNight {
-  Day = '',
-  Night = 'night'
-}
-
-export enum ApartmentType {
-  Apartment = 'Apartment',
-  PrivateRoom = 'Private room'
-}
-
 export const URL_MARKER_DEFAULT =
   '../img/pin.svg';
 
@@ -44,4 +32,19 @@ export enum SortMenu {
     PriceHighLow = 'Price: high to low',
     TopRateFirst = 'Top rated first',
     Default = 'Popular'
+  }
+
+export enum APIRoute {
+    Hotels = '/hotels',
+    HotelId = '/hotels/{hotelId}',
+    NearHotels = '/hotels/{hotelId}/nearby',
+    Comments = '/comments/{hotelId}',
+    Login = '/login',
+    Logout = '/logout'
+  }
+
+export enum AuthorizationStatus {
+    Auth = 'AUTH',
+    NoAuth = 'NO_AUTH',
+    Unknown = 'UNKNOWN',
   }

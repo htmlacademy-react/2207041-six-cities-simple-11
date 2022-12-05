@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { OFFERS } from './mocks/offers';
 import {Provider} from 'react-redux';
 import {store} from './store';
+import {fetchOfferAction/*, checkAuthAction*/} from './store/api-actions/api-actions';
 
-enum AppSettings {
-  CardsCount = 5
-}
+store.dispatch(fetchOfferAction());
+//store.dispatch(checkAuthAction());
 
 const elRoot = document.getElementById('root');
 
@@ -17,10 +16,7 @@ if(elRoot) {
   root.render(
     <React.StrictMode>
       <Provider store = {store}>
-        <App
-          cardsCount = {AppSettings.CardsCount}
-          offers={OFFERS}
-        />
+        <App/>
       </Provider>
     </React.StrictMode>,
   );

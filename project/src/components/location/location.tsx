@@ -1,31 +1,31 @@
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/useApp';
-import { CITY_OFFERS } from '../../mocks/city_offers';
-import { OFFERS } from '../../mocks/offers';
+import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
 import { changeCity, fillOffers } from '../../store/actions/actions';
+import { fetchOfferAction } from '../../store/api-actions/api-actions';
 import { City } from '../../types/types';
 
 type LocationProps = {
   city: City;
-  selectedCityId: number;
+  selectedCity: string;
 }
 
 function Location(item: LocationProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const selectedOffers = useAppSelector((state) => state.offers);
 
   const changeCityHandler = (city:City) => {
     dispatch(changeCity(city));
-    const currentOffers = CITY_OFFERS.find((i) => i.city.id === city.id);
-    const offers = currentOffers ? currentOffers.offers : OFFERS;
+    dispatch(fetchOfferAction());
+    const offers = selectedOffers.filter((i) => i.city.name === city.name);
     dispatch(fillOffers(offers));
   };
 
   return(
     <li className="locations__item">
-      <Link className={`locations__item-link tabs__item${(item.city.id === item.selectedCityId) ? ' tabs__item--active' : ''}`}
+      <Link className={`locations__item-link tabs__item${(item.city.name === item.selectedCity) ? ' tabs__item--active' : ''}`}
         to='#'
         onClick={() => changeCityHandler(item.city)}
-      >{item.city.title}
+      >{item.city.name}
       </Link>
     </li>
   );

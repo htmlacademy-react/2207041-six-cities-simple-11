@@ -1,18 +1,19 @@
 import { useParams } from 'react-router-dom';
 import ReviewPlace from '../../components/review-place/review-place';
 import { CITIES, NEAR_POINTS } from '../../mocks/coordinates';
-import { OFFERS } from '../../mocks/offers';
 import Map from '../../components/map/map';
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
 import { Point, TopOffer } from '../../types/types';
 import { NEAR_OFFERS } from '../../mocks/near_offers';
 import { useState } from 'react';
+import { useAppSelector } from '../../hooks/useApp';
 
 function PropertyPage(): JSX.Element {
+  const selectedOffers = useAppSelector((state) => state.offers);
   const params = useParams();
   const id: string = params.id ?? ''; // Добавлено чтобы в будущем делать выборку из списка по id b отображения
-  const offer = OFFERS.find((item) => item.id.toString() === id);
-  const city = CITIES[0];
+  const offer = selectedOffers.find((item) => item.id.toString() === id);
+  const city = offer ? offer.city : CITIES[0];
   const points = NEAR_POINTS;
   const topOffer: TopOffer = {cardsCount: NEAR_OFFERS.length, offers: NEAR_OFFERS};
   const [selectedPoint, setSelectedPoint] = useState<Point|null>(null);
@@ -135,8 +136,8 @@ function PropertyPage(): JSX.Element {
                     </li>
                   </ul>
                   <div className="property__price">
-                    <b className="property__price-value">{offer?.price.cost}</b>
-                    <span className="property__price-text">{offer?.price.additionalInfo}</span>
+                    <b className="property__price-value">{offer?.price}</b>
+                    <span className="property__price-text">&#47;&nbsp;night</span>
                   </div>
                   <div className="property__inside">
                     <h2 className="property__inside-title">What&apos;s inside</h2>
