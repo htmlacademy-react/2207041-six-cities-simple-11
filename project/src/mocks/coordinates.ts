@@ -1,4 +1,4 @@
-import { Cities, Points } from '../types/types';
+import { Cities } from '../types/types';
 
 export const CITIES: Cities = [
   {
@@ -47,26 +47,5 @@ export const CITIES: Cities = [
       longitude: 6.776314,
       zoom: 13
     }
-  }
-];
-
-export const NEAR_POINTS: Points = [
-  {
-    offerId: 2,
-    title: 'Point 2',
-    latitude: 52.3909553943508,
-    longitude: 4.85309666406198
-  },
-  {
-    offerId: 3,
-    title: 'Point 3',
-    latitude: 52.3609553943508,
-    longitude: 4.85309666406198
-  },
-  {
-    offerId: 4,
-    title: 'Point 4',
-    latitude: 52.3909553943508,
-    longitude: 4.929309666406198
   }
 ];

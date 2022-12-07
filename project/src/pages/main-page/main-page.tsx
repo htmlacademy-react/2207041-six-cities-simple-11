@@ -2,7 +2,7 @@ import OfferCardList from '../../components/offer-card-list/offer-card-list';
 import { Point, TopOffer } from '../../types/types';
 import { AppSettings } from '../../types/constants';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import LocationList from '../../components/location-list/location-list';
 import { useAppSelector } from '../../hooks/useApp';
 import PlaceOptionList from '../../components/place-option-list/place-option-list';
@@ -32,7 +32,7 @@ function MainPage(): JSX.Element {
   };
 
   return (
-    <>
+    <Fragment>
       <HeaderNav />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -60,7 +60,7 @@ function MainPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </>
+    </Fragment>
   );
 }
 

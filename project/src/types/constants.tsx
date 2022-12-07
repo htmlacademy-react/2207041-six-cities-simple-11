@@ -17,7 +17,8 @@ export enum AppRoute {
   Locations = '/location/',
   LocationsPage = ':id',
   MainEmptyPage = '/main-empty-page',
-  PropertyNotLoggedPage = '/property-not-logged-page'
+  PropertyNotLoggedPage = '/property-not-logged-page',
+  NotFoundPage = '/not-found-page'
 }
 
 export const URL_MARKER_DEFAULT =
@@ -36,9 +37,8 @@ export enum SortMenu {
 
 export enum APIRoute {
     Hotels = '/hotels',
-    HotelId = '/hotels/{hotelId}',
-    NearHotels = '/hotels/{hotelId}/nearby',
-    Comments = '/comments/{hotelId}',
+    HotelId = '/hotels/',
+    Comments = '/comments/',
     Login = '/login',
     Logout = '/logout'
   }

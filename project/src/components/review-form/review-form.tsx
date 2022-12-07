@@ -1,6 +1,15 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
+import { fetchAddReview } from '../../store/api-actions/api-actions';
+import { Review } from '../../types/types';
 
 function ReviewForm(): JSX.Element {
+  const params = useParams();
+  const id: string = params.id ?? '';
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector((state) => state.userData);
+
   const [formData, setFormData] = useState({
     rating: '',
     review: '',
@@ -16,8 +25,30 @@ function ReviewForm(): JSX.Element {
     setFormData({...formData, [name]: value});
   };
 
+  const onSubmit = (review: Review) => {
+    dispatch(fetchAddReview(review));
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (formData.rating !== null && formData.review !== null) {
+      onSubmit({
+        comment: formData.review,
+        id: Number(id),
+        rating: Number(formData.rating),
+        user: {avatarUrl: userData ? userData.avatarUrl : '',
+          id: userData ? userData.id : 0,
+          isPro: userData ? userData.isPro : false,
+          name: userData ? userData.name : ''
+        },
+        date: new Date().toISOString()
+      });
+    }
+  };
+
   return(
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input onChange={fieldInputChangeHandle} checked={'5' === formData.rating} className="form__rating-input visually-hidden" name="rating" value='5' id="5-stars" type="radio"/>
