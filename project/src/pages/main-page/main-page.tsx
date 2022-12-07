@@ -6,6 +6,7 @@ import { useState } from 'react';
 import LocationList from '../../components/location-list/location-list';
 import { useAppSelector } from '../../hooks/useApp';
 import PlaceOptionList from '../../components/place-option-list/place-option-list';
+import HeaderNav from '../../components/header-nav/header-nav';
 
 
 function MainPage(): JSX.Element {
@@ -31,32 +32,35 @@ function MainPage(): JSX.Element {
   };
 
   return (
-    <main className="page__main page__main--index">
-      <h1 className="visually-hidden">Cities</h1>
-      <div className="tabs">
-        <LocationList selectedCity={selectedCity} />
-      </div>
-      <div className="cities">
-        <div className="cities__places-container container">
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{topOfferCity.offers.length} places to stay in {selectedCity.name}</b>
-            <form className="places__sorting" action="#" method="get">
-              <PlaceOptionList />
-            </form>
-            <OfferCardList className="cities__places-list places__list tabs__content"
-              classOfferPrefix="cities"
-              topOffer={topOfferCity}
-              onItemOver={(offerId: number) => onItemOver(offerId)}
-              onItemLeave={onItemLeave}
-            />
-          </section>
-          <div className="cities__right-section">
-            <Map className="cities__map map" city={city} points={points} selectedPoint={selectedPoint}></Map>
+    <>
+      <HeaderNav />
+      <main className="page__main page__main--index">
+        <h1 className="visually-hidden">Cities</h1>
+        <div className="tabs">
+          <LocationList selectedCity={selectedCity} />
+        </div>
+        <div className="cities">
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">{topOfferCity.offers.length} places to stay in {selectedCity.name}</b>
+              <form className="places__sorting" action="#" method="get">
+                <PlaceOptionList />
+              </form>
+              <OfferCardList className="cities__places-list places__list tabs__content"
+                classOfferPrefix="cities"
+                topOffer={topOfferCity}
+                onItemOver={(offerId: number) => onItemOver(offerId)}
+                onItemLeave={onItemLeave}
+              />
+            </section>
+            <div className="cities__right-section">
+              <Map className="cities__map map" city={city} points={points} selectedPoint={selectedPoint}></Map>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 
