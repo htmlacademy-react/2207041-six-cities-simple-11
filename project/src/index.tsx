@@ -4,7 +4,8 @@ import App from './components/app/app';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import { fetchOfferAction, checkAuthAction } from './store/api-actions/api-actions';
-import ErrorMessage from './components/error-message/error-massage';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchOfferAction());
 store.dispatch(checkAuthAction());
@@ -17,8 +18,8 @@ if(elRoot) {
   root.render(
     <React.StrictMode>
       <Provider store = {store}>
-        <ErrorMessage />
         <App/>
+        <ToastContainer />
       </Provider>
     </React.StrictMode>,
   );
