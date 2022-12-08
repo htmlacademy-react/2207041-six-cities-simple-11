@@ -2,7 +2,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import { CITIES } from '../../mocks/coordinates';
 import { AuthorizationStatus } from '../../types/constants';
 import { City, Offer, Offers, Reviews, UserData } from '../../types/types';
-import { changeCity, fillOffers, loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, sortOffersPriceHighLow, sortOffersPriceLowHigh, sortOffersTopRateFirst} from '../actions/actions';
+import { changeCity, fillOffers, loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, sortOffersPriceHighLow, sortOffersPriceLowHigh, sortOffersTopRateFirst, sortReviews, setStateReview} from '../actions/actions';
 
 export type InitialState = {
   city: City;
@@ -14,6 +14,7 @@ export type InitialState = {
   offer: Offer | null;
   nearOffers: Offers;
   reviews: Reviews;
+  stateReview: boolean;
 }
 
 const initialState: InitialState = {
@@ -25,7 +26,8 @@ const initialState: InitialState = {
   userData: null,
   offer: null,
   nearOffers: [],
-  reviews: []
+  reviews: [],
+  stateReview: false
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -49,6 +51,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(sortOffersTopRateFirst, (state, action) => {
       state.offers = action.payload;
     })
+    .addCase(sortReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
@@ -69,6 +74,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(setStateReview, (state, action) => {
+      state.stateReview = action.payload;
     });
 });
 

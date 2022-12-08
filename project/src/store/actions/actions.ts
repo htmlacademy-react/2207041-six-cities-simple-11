@@ -40,15 +40,29 @@ export const sortOffersPriceHighLow = createAction('city/sortOffersPriceHighLow'
 export const sortOffersTopRateFirst = createAction('city/sortOffersTopRateFirst', (offers: Offers) => ({
   type: SortMenu.TopRateFirst,
   payload: offers.slice().sort((a, b) => {
-    if(a.rating > b.rating)
+    if(a.rating < b.rating)
     {
       return 1;
     }
-    if(a.rating < b.rating)
+    if(a.rating > b.rating)
     {
       return -1;
     }
     return 0;})
+}));
+
+export const sortReviews = createAction('city/sortReview', (reviews: Reviews) => ({
+  type: 'SortReview',
+  payload: reviews.slice().sort((a, b) => {
+    if(a.date > b.date)
+    {
+      return -1;
+    }
+    if(a.date < b.date)
+    {
+      return 1;
+    }
+    return 0;}).slice(0, 10)
 }));
 
 export const loadOffers = createAction<Offers>('data/loadOffers');
@@ -71,6 +85,10 @@ export const loadNearOffers = createAction('city/loadNearOffers', (offers: Offer
 
 export const loadReviews = createAction('data/loadReviews', (reviews: Reviews) => ({
   payload: reviews
+}));
+
+export const setStateReview = createAction('data/setStateReview', (stateReview: boolean) => ({
+  payload: stateReview
 }));
 
 export const redirectToRoute = createAction('app/redirectToRoute', (route: AppRoute) => ({payload: route}));

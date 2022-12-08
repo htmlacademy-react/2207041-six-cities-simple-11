@@ -4,18 +4,16 @@ import { CITIES } from '../../mocks/coordinates';
 import Map from '../../components/map/map';
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
 import { Offer, Offers, Point, TopOffer } from '../../types/types';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useAppSelector } from '../../hooks/useApp';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { store } from '../../store';
 import { fetchNearOffers, fetchOfferPropertyAction, fetchReviews } from '../../store/api-actions/api-actions';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { AuthorizationStatus } from '../../types/constants';
 
 function PropertyPage(): JSX.Element {
   const params = useParams();
   const id: string = params.id ?? '';
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offer = useAppSelector<Offer|null>((state) => state.offer);
 
   useEffect(() => {
@@ -37,19 +35,13 @@ function PropertyPage(): JSX.Element {
       points.push({offerId:item.id, title:item.title, latitude: item.location.latitude, longitude: item.location.longitude})
     );
   }
+  if(offer){
+    points.push({offerId: offer.id, title:offer.title, latitude: offer.location.latitude, longitude: offer.location.longitude});
+  }
   const topOffer: TopOffer = {cardsCount: nearOffers.length, offers: nearOffers};
-  const [selectedPoint, setSelectedPoint] = useState<Point|null>(null);
+  const currentPoint = points.find((point) => point.offerId === Number(id));
+  const selectedPoint = (currentPoint ?? null);
 
-  const onItemOver = (offerId: number) => {
-    const currentPoint = points.find((point) =>
-      point.offerId === offerId,
-    );
-    setSelectedPoint(currentPoint ?? null);
-  };
-
-  const onItemLeave = () => {
-    setSelectedPoint(null);
-  };
   if(offer){
     return(
       <Fragment>
@@ -128,7 +120,7 @@ function PropertyPage(): JSX.Element {
                     </p>
                   </div>
                 </div>
-                {authorizationStatus === AuthorizationStatus.Auth ? <ReviewPlace /> : ''}
+                <ReviewPlace />
               </div>
             </div>
             <Map className="property__map map" city={city} points={points} selectedPoint={selectedPoint}></Map>
@@ -139,8 +131,8 @@ function PropertyPage(): JSX.Element {
               <OfferCardList className="near-places__list places__list"
                 classOfferPrefix="near-places"
                 topOffer={topOffer}
-                onItemOver={(offerId: number) => onItemOver(offerId)}
-                onItemLeave={onItemLeave}
+                onItemOver={() => true}
+                onItemLeave={() => true}
               />
             </section>
           </div>

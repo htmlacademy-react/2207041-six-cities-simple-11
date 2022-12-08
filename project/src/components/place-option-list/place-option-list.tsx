@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
 import { sortOffersPriceHighLow, sortOffersPriceLowHigh, sortOffersTopRateFirst } from '../../store/actions/actions';
+import { fetchOfferAction } from '../../store/api-actions/api-actions';
 import { SortMenu, tabIndex } from '../../types/constants';
 
 function PlaceOptionList(): JSX.Element {
@@ -28,6 +29,9 @@ function PlaceOptionList(): JSX.Element {
         case SortMenu.TopRateFirst:
           dispatch(sortOffersTopRateFirst(offers));
           break;
+        default:
+          dispatch(fetchOfferAction());
+          break;
       }
       setSelectedValue(val);
     }
@@ -41,7 +45,7 @@ function PlaceOptionList(): JSX.Element {
     <div>
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" {...tabIndex} onMouseOver={onItemOver}>
-        Popular
+        {selectedValue}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>

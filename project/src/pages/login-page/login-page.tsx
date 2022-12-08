@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector} from '../../hooks/useApp';
 import { loginAction } from '../../store/api-actions/api-actions';
 import { AppRoute, AuthorizationStatus } from '../../types/constants';
 import { AuthData } from '../../types/types';
+import {toast} from 'react-toastify';
 
 function LoginPage(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -29,14 +30,22 @@ function LoginPage(): JSX.Element {
     dispatch(loginAction(authData));
   };
 
+  const pwdExp = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
-      });
+    if (loginRef.current !== null && passwordRef.current !== null
+      && loginRef.current.value !== '' && passwordRef.current.value !== '') {
+      if(pwdExp.test(passwordRef.current.value) === false){
+        toast.error('Password must be more than 8 characters, one number and one capital letter');
+      }else{
+        onSubmit({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        });
+      }
+    }else{
+      toast.error('Username or password field is not filled');
     }
   };
 
