@@ -101,17 +101,17 @@ export const fetchReviews = createAsyncThunk<void, string, {
   },
 );
 
-export const fetchAddReview = createAsyncThunk<void, Review, {
+export const addReview = createAsyncThunk<void, Review, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
 }>(
-  'data/fetchAddReview',
-  async({id, comment, rating}, {dispatch, extra: api}) => {
+  'data/addReview',
+  ({id, comment, rating}, {dispatch, extra: api}) => {
     try{
       dispatch(setError(''));
       dispatch(setStateReview(true));
-      await api.post(`${APIRoute.Comments}${id}`, {comment, rating});
+      api.post(`${APIRoute.Comments}${id}`, {comment, rating});
       dispatch(fetchReviews(id.toString()));
     }
     catch(error){

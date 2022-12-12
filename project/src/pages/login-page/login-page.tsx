@@ -14,11 +14,9 @@ function LoginPage(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const randomCity = CITIES[Math.floor(Math.random() * CITIES.length)];
   useEffect(() => {
-    if (loginRef && passwordRef) {
-      if (loginRef.current !== null && passwordRef.current !== null
-        && loginRef.current.value !== '' && passwordRef.current.value !== '') {
-        dispatch(loginAction({login: loginRef.current.value, password: passwordRef.current.value}));
-      }
+    if (loginRef?.current !== null && passwordRef?.current !== null
+      && loginRef?.current.value !== '' && passwordRef?.current.value !== '') {
+      dispatch(loginAction({login: loginRef.current.value, password: passwordRef.current.value}));
     }
     if(authorizationStatus === AuthorizationStatus.Auth){
       navigate(AppRoute.Main);
@@ -36,8 +34,8 @@ function LoginPage(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (loginRef.current !== null && passwordRef.current !== null
-      && loginRef.current.value !== '' && passwordRef.current.value !== '') {
+    if (loginRef?.current !== null && passwordRef?.current !== null
+      && loginRef?.current.value !== '' && passwordRef.current?.value !== '') {
       if(pwdExp.test(passwordRef.current.value) === false){
         toast.error('Password must be more than 8 characters, one number and one capital letter');
       }else{

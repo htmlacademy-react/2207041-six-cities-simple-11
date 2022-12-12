@@ -1,13 +1,16 @@
 import { FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
-import { fetchAddReview } from '../../store/api-actions/api-actions';
+import { addReview } from '../../store/api-actions/api-actions';
 import { Review } from '../../types/types';
 import {toast} from 'react-toastify';
 
+export enum ReviewTextLength {
+  Min = 50,
+  Max = 300
+}
+
 function ReviewForm(): JSX.Element {
-  const MIN_TEXT_LENGTH = 50;
-  const MAX_TEXT_LENGTH = 300;
   const stateReview = useAppSelector((state) => state.stateReview);
   const stateError = useAppSelector((state) => state.error);
   const params = useParams();
@@ -31,7 +34,7 @@ function ReviewForm(): JSX.Element {
   };
 
   const onSubmit = (review: Review) => {
-    dispatch(fetchAddReview(review));
+    dispatch(addReview(review));
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -96,12 +99,12 @@ function ReviewForm(): JSX.Element {
           </svg>
         </label>
       </div>
-      <textarea onChange={fieldTextChangeHandle} value={formData.review} disabled={stateReview} maxLength={MAX_TEXT_LENGTH} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea onChange={fieldTextChangeHandle} value={formData.review} disabled={stateReview} maxLength={ReviewTextLength.Max} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-        To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{MIN_TEXT_LENGTH} characters</b>.
+        To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{ReviewTextLength.Min} characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!(formData.review.length >= MIN_TEXT_LENGTH && formData.rating) || stateReview}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!(formData.review.length >= ReviewTextLength.Min && formData.rating) || stateReview}>Submit</button>
       </div>
     </form>
   );

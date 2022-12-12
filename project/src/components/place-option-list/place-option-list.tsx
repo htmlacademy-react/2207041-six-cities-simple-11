@@ -30,6 +30,7 @@ function PlaceOptionList(): JSX.Element {
           dispatch(sortOffersTopRateFirst(offers));
           break;
         default:
+          // Запрашиваю данные с сервера, для получения популярных предложений на текущий момент
           dispatch(fetchOfferAction());
           break;
       }
