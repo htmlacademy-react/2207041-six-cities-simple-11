@@ -1,15 +1,17 @@
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
 import { Point, TopOffer } from '../../types/types';
-import { AppSettings } from '../../types/constants';
+import { AppRoute, AppSettings } from '../../types/constants';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import LocationList from '../../components/location-list/location-list';
 import { useAppSelector } from '../../hooks/useApp';
 import PlaceOptionList from '../../components/place-option-list/place-option-list';
 import HeaderNav from '../../components/header-nav/header-nav';
+import { useNavigate } from 'react-router-dom';
 
 
 function MainPage(): JSX.Element {
+  const navigate = useNavigate();
   const selectedCity = useAppSelector((state) => state.city);
   const selectedOffers = useAppSelector((state) => state.offers.filter((i) => i.city.name === selectedCity.name));
   const topOfferCity: TopOffer = {cardsCount: AppSettings.CardsCount, offers: selectedOffers};
@@ -31,8 +33,14 @@ function MainPage(): JSX.Element {
     setSelectedPoint(null);
   };
 
+  useEffect(() => {
+    if(selectedOffers?.length === 0){
+      navigate(AppRoute.MainEmptyPage);
+    }
+  });
+
   return (
-    <>
+    <Fragment>
       <HeaderNav />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -60,7 +68,7 @@ function MainPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </>
+    </Fragment>
   );
 }
 

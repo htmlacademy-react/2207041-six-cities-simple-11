@@ -8,11 +8,11 @@ function ReviewItem({item}: ReviewProps):JSX.Element {
   return(
     <li className="reviews__item" key={item.id}>
       <div className="reviews__user user">
-        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"/>
+        <div className={`reviews__avatar-wrapper${item.user.isPro ? '--pro' : ''} user__avatar-wrapper`}>
+          <img className="reviews__avatar user__avatar" src={item.user.avatarUrl} width="54" height="54" alt="Reviews avatar"/>
         </div>
         <span className="reviews__user-name">
-          Max
+          {item.user.name}
         </span>
       </div>
       <div className="reviews__info">
@@ -23,9 +23,9 @@ function ReviewItem({item}: ReviewProps):JSX.Element {
           </div>
         </div>
         <p className="reviews__text">
-          {item.description}
+          {item.comment}
         </p>
-        <time className="reviews__time" dateTime={item.reviewDate.toISOString()}>{item.reviewDate.toLocaleDateString()}</time>
+        <time className="reviews__time" dateTime={item.date}>{new Date(item.date).toLocaleString('en-US', { month: 'long', year: 'numeric' })}</time>
       </div>
     </li>
   );

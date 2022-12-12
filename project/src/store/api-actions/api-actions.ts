@@ -1,9 +1,9 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {APIRoute, AuthorizationStatus} from '../../types/constants';
-import {AuthData, Offers, UserData} from '../../types/types';
+import {AuthData, Offer, Offers, Review, Reviews, UserData} from '../../types/types';
 import { AppDispatch, RootState } from '..';
-import { loadOffers, requireAuthorization, setOffersDataLoadingStatus, setUserData } from '../actions/actions';
+import { loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOffersDataLoadingStatus, setStateReview, setUserData, sortReviews } from '../actions/actions';
 import { dropToken, saveToken } from '../../services/token';
 
 export const fetchOfferAction = createAsyncThunk<void, undefined, {
@@ -64,3 +64,64 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
+export const fetchOfferPropertyAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOfferProperty',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offer>(`${APIRoute.HotelId}${id}`);
+    dispatch(loadOfferProperty(data));
+  }
+);
+
+export const fetchNearOffers = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearOffers',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offers>(`${APIRoute.HotelId}${id}/nearby`);
+    dispatch(loadNearOffers(data));
+  },
+);
+
+export const fetchReviews = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'data/fetchReviews',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Reviews>(`${APIRoute.Comments}${id}`);
+    dispatch(loadReviews(data));
+    dispatch(sortReviews(data));
+  },
+);
+
+export const addReview = createAsyncThunk<void, Review, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'data/addReview',
+  ({id, comment, rating}, {dispatch, extra: api}) => {
+    try{
+      dispatch(setError(''));
+      dispatch(setStateReview(true));
+      api.post(`${APIRoute.Comments}${id}`, {comment, rating});
+      dispatch(fetchReviews(id.toString()));
+    }
+    catch(error){
+      if (typeof error === 'string') {
+        dispatch(setError(error));
+      } else if (error instanceof Error) {
+        dispatch(setError(error.message));
+      }
+    }finally{
+      dispatch(setStateReview(false));
+    }
+  }
+);

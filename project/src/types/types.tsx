@@ -1,11 +1,3 @@
-type CardImage = {
-  className: string;
-  src: string;
-  width: number;
-  height: number;
-  alt: string;
-}
-
 type Host = {
   id: number;
   name: string;
@@ -36,18 +28,19 @@ export type TopOffer = {
   offers: Offer[];
 }
 
-type Visitor = {
-  avatar: CardImage;
+export type Visitor = {
+  avatarUrl: string;
+  id: number;
+  isPro: boolean;
   name: string;
 }
 
 export type Review = {
+  comment: string;
+  date: string;
   id: number;
-  visitor: Visitor;
   rating: number;
-  description: string;
-  reviewDate: Date;
-  offerId: number;
+  user: Visitor;
 }
 
 export type City = {
@@ -85,3 +78,4 @@ export type UserData = {
 export type Points = Point[];
 export type Cities = City[];
 export type Offers = Offer[];
+export type Reviews = Review[];
