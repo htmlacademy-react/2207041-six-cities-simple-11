@@ -1,16 +1,18 @@
 import { FormEvent, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector} from '../../hooks/useApp';
-import { loginAction } from '../../store/api-actions/api-actions';
+import { fetchOfferAction, loginAction } from '../../store/api-actions/api-actions';
 import { AppRoute, AuthorizationStatus } from '../../types/constants';
 import { AuthData } from '../../types/types';
 import {toast} from 'react-toastify';
+import { CITIES } from '../../mocks/coordinates';
+import { changeCity } from '../../store/actions/actions';
 
 function LoginPage(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
+  const randomCity = CITIES[Math.floor(Math.random() * CITIES.length)];
   useEffect(() => {
     if (loginRef && passwordRef) {
       if (loginRef.current !== null && passwordRef.current !== null
@@ -48,6 +50,13 @@ function LoginPage(): JSX.Element {
       toast.error('Username or password field is not filled');
     }
   };
+
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>): void {
+    e.preventDefault();
+    dispatch(changeCity(randomCity));
+    dispatch(fetchOfferAction());
+    navigate(AppRoute.Main);
+  }
 
   return (
     <div className="page page--gray page--login">
@@ -95,9 +104,9 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="/#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" onClick={handleClick} to='#'>
+                <span>{randomCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>
