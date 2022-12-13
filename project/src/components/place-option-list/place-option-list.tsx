@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app';
 import { sortOffersPriceHighLow, sortOffersPriceLowHigh, sortOffersTopRateFirst } from '../../store/actions/actions';
 import { fetchOfferAction } from '../../store/api-actions/api-actions';
 import { SortMenu, tabIndex } from '../../types/constants';
@@ -8,11 +8,11 @@ function PlaceOptionList(): JSX.Element {
   const dispatch = useAppDispatch();
   const offers = useAppSelector((stateOffers) => stateOffers.offers);
   const menuItems = [SortMenu.Popular, SortMenu.PriceLowHigh, SortMenu.PriceHighLow, SortMenu.TopRateFirst];
-  const [state, setState] = useState(false);
-  const onItemOver = () => setState(true);
-  const onItemLeave = () => setState(false);
+  const [activeTypeSort, setActiveTypeSort] = useState(false);
+  const onItemOver = () => setActiveTypeSort(true);
+  const onItemLeave = () => setActiveTypeSort(false);
   const onItemClick = () => {
-    setState(false);
+    setActiveTypeSort(false);
   };
 
   const [selectedValue, setSelectedValue] = useState<string>(SortMenu.Default);
@@ -30,7 +30,6 @@ function PlaceOptionList(): JSX.Element {
           dispatch(sortOffersTopRateFirst(offers));
           break;
         default:
-          // Запрашиваю данные с сервера, для получения популярных предложений на текущий момент
           dispatch(fetchOfferAction());
           break;
       }
@@ -51,7 +50,7 @@ function PlaceOptionList(): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom places__options${state ? '--opened' : ''}`}
+      <ul className={`places__options places__options--custom places__options${activeTypeSort ? '--opened' : ''}`}
         onMouseLeave={onItemLeave}
         onClick={onItemClick}
       >

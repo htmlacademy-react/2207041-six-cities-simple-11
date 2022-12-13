@@ -1,4 +1,4 @@
-import { CITIES } from '../../mocks/coordinates';
+import { CITIES } from '../../types/constants';
 import { City } from '../../types/types';
 import Location from '../location/location';
 

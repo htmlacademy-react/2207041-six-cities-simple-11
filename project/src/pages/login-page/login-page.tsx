@@ -1,11 +1,10 @@
 import { FormEvent, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector} from '../../hooks/useApp';
-import { fetchOfferAction, loginAction } from '../../store/api-actions/api-actions';
-import { AppRoute, AuthorizationStatus } from '../../types/constants';
-import { AuthData } from '../../types/types';
 import {toast} from 'react-toastify';
-import { CITIES } from '../../mocks/coordinates';
+import { useAppDispatch, useAppSelector} from '../../hooks/use-app';
+import { fetchOfferAction, loginAction } from '../../store/api-actions/api-actions';
+import { AppRoute, AuthorizationStatus, CITIES } from '../../types/constants';
+import { AuthData } from '../../types/types';
 import { changeCity } from '../../store/actions/actions';
 
 function LoginPage(): JSX.Element {
@@ -14,7 +13,7 @@ function LoginPage(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const randomCity = CITIES[Math.floor(Math.random() * CITIES.length)];
   useEffect(() => {
-    if (loginRef?.current !== null && passwordRef?.current !== null
+    if (loginRef?.current && passwordRef?.current
       && loginRef?.current.value !== '' && passwordRef?.current.value !== '') {
       dispatch(loginAction({login: loginRef.current.value, password: passwordRef.current.value}));
     }
@@ -30,14 +29,14 @@ function LoginPage(): JSX.Element {
     dispatch(loginAction(authData));
   };
 
-  const pwdExp = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
+  const pwdExp = new RegExp(/^(?=.*\d)(?=.*[a-z]).{1,}$/);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef?.current !== null && passwordRef?.current !== null
       && loginRef?.current.value !== '' && passwordRef.current?.value !== '') {
       if(pwdExp.test(passwordRef.current.value) === false){
-        toast.error('Password must be more than 8 characters, one number and one capital letter');
+        toast.error('Password must be more than 1 characters, one number and one capital letter');
       }else{
         onSubmit({
           login: loginRef.current.value,
@@ -49,12 +48,12 @@ function LoginPage(): JSX.Element {
     }
   };
 
-  function handleClick(e: React.MouseEvent<HTMLAnchorElement>): void {
+  const handleCityClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     dispatch(changeCity(randomCity));
     dispatch(fetchOfferAction());
     navigate(AppRoute.Main);
-  }
+  };
 
   return (
     <div className="page page--gray page--login">
@@ -76,9 +75,9 @@ function LoginPage(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <Link className="header__logo-link" to={AppRoute.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -102,7 +101,7 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" onClick={handleClick} to='#'>
+              <Link className="locations__item-link" onClick={handleCityClick} to='#'>
                 <span>{randomCity.name}</span>
               </Link>
             </div>

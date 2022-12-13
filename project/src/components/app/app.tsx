@@ -5,11 +5,10 @@ import Layout from '../layout';
 import LoginPage from '../../pages/login-page/login-page';
 import PropertyPage from '../../pages/property-page/property-page';
 import { AppRoute, AuthorizationStatus} from '../../types/constants';
-import PropertyNotLoggedPage from '../../pages/property-not-logged-page/property-not-logged-page';
 import MainEmptyPage from '../../pages/main-empty-page/main-empty-page';
 import PrivateRoute from '../../private-route';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
-import {useAppSelector} from '../../hooks/useApp';
+import {useAppSelector} from '../../hooks/use-app';
 import Spinner from '../../pages/spinner/spinner';
 
 function App(): JSX.Element {
@@ -39,7 +38,6 @@ function App(): JSX.Element {
         <Route path={AppRoute.Properties}>
           <Route path={AppRoute.PropertyPage} element={<PropertyPage />} />
         </Route>
-        <Route path={AppRoute.PropertyNotLoggedPage} element={<PropertyNotLoggedPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

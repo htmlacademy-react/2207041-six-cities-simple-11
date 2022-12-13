@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import LocationList from '../../components/location-list/location-list';
-import { useAppSelector } from '../../hooks/useApp';
+import { useAppSelector } from '../../hooks/use-app';
 import { AppRoute } from '../../types/constants';
 
 function NotFoundPage(): JSX.Element {

@@ -23,11 +23,6 @@ export type Offer = {
   id: number;
 };
 
-export type TopOffer = {
-  cardsCount: number;
-  offers: Offer[];
-}
-
 export type Visitor = {
   avatarUrl: string;
   id: number;
@@ -55,7 +50,7 @@ export type Location = {
 };
 
 export type Point = {
-  offerId: number;
+  id: number;
   title: string;
   latitude: number;
   longitude: number;
