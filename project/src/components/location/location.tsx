@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app';
 import { changeCity, fillOffers } from '../../store/actions/actions';
 import { fetchOfferAction } from '../../store/api-actions/api-actions';
 import { City } from '../../types/types';
@@ -13,7 +13,7 @@ function Location(item: LocationProps): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedOffers = useAppSelector((state) => state.offers);
 
-  const changeCityHandler = (city:City) => {
+  const handleCityChange = (city:City) => {
     dispatch(changeCity(city));
     dispatch(fetchOfferAction());
     const offers = selectedOffers.filter((i) => i.city.name === city.name);
@@ -24,7 +24,7 @@ function Location(item: LocationProps): JSX.Element {
     <li className="locations__item">
       <Link className={`locations__item-link tabs__item${(item.city.name === item.selectedCity) ? ' tabs__item--active' : ''}`}
         to='#'
-        onClick={() => changeCityHandler(item.city)}
+        onClick={() => handleCityChange(item.city)}
       >{item.city.name}
       </Link>
     </li>

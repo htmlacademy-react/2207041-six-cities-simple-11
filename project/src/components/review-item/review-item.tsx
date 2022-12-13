@@ -1,3 +1,4 @@
+import { ONE_STAR } from '../../types/constants';
 import { Review } from '../../types/types';
 
 type ReviewProps = {
@@ -18,7 +19,7 @@ function ReviewItem({item}: ReviewProps):JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${Math.round(item.rating) * 20}%`}}></span>
+            <span style={{width: `${Math.round(item.rating) * ONE_STAR}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

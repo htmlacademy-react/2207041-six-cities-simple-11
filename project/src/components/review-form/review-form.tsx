@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app';
 import { addReview } from '../../store/api-actions/api-actions';
 import { Review } from '../../types/types';
 import {toast} from 'react-toastify';
@@ -13,8 +13,7 @@ export enum ReviewTextLength {
 function ReviewForm(): JSX.Element {
   const stateReview = useAppSelector((state) => state.stateReview);
   const stateError = useAppSelector((state) => state.error);
-  const params = useParams();
-  const id: string = params.id ?? '';
+  const {id} = useParams();
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userData);
 

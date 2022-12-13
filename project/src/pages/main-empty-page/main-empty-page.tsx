@@ -1,6 +1,6 @@
 import HeaderNav from '../../components/header-nav/header-nav';
 import LocationList from '../../components/location-list/location-list';
-import { useAppSelector } from '../../hooks/useApp';
+import { useAppSelector } from '../../hooks/use-app';
 
 function MainEmptyPage(): JSX.Element {
   const selectedCity = useAppSelector((state) => state.city);

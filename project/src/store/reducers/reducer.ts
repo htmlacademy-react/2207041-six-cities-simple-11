@@ -1,6 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { CITIES } from '../../mocks/coordinates';
-import { AuthorizationStatus } from '../../types/constants';
+import { AuthorizationStatus, CITIES } from '../../types/constants';
 import { City, Offer, Offers, Reviews, UserData } from '../../types/types';
 import { changeCity, fillOffers, loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, sortOffersPriceHighLow, sortOffersPriceLowHigh, sortOffersTopRateFirst, sortReviews, setStateReview} from '../actions/actions';
 

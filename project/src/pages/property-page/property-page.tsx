@@ -1,45 +1,39 @@
 import { useParams } from 'react-router-dom';
 import ReviewPlace from '../../components/review-place/review-place';
-import { CITIES } from '../../mocks/coordinates';
 import Map from '../../components/map/map';
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
-import { Offer, Offers, Point, TopOffer } from '../../types/types';
+import { Offer, Offers, Point } from '../../types/types';
 import { Fragment, useEffect } from 'react';
-import { useAppSelector } from '../../hooks/useApp';
+import { useAppSelector } from '../../hooks/use-app';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { store } from '../../store';
 import { fetchNearOffers, fetchOfferPropertyAction, fetchReviews } from '../../store/api-actions/api-actions';
 import NotFoundPage from '../not-found-page/not-found-page';
+import { CITIES } from '../../types/constants';
 
 function PropertyPage(): JSX.Element {
-  const params = useParams();
-  const id: string = params.id ?? '';
+  const {id} = useParams();
   const offer = useAppSelector<Offer|null>((state) => state.offer);
 
   useEffect(() => {
-    store.dispatch(fetchNearOffers(id));
-    store.dispatch(fetchReviews(id));
+    store.dispatch(fetchNearOffers(id ? id : ''));
+    store.dispatch(fetchReviews(id ? id : ''));
   }, [id]);
 
   useEffect(() => {
     if(!offer) {
-      store.dispatch(fetchOfferPropertyAction(id));
+      store.dispatch(fetchOfferPropertyAction(id ? id : ''));
     }
   }, [offer, id]);
 
   const nearOffers = useAppSelector<Offers>((state) => state.nearOffers);
   const city = offer ? offer.city : CITIES[0];
-  const points: Point[] = [];
-  if(nearOffers.length > 0){
-    nearOffers.map((item) =>
-      points.push({offerId:item.id, title:item.title, latitude: item.location.latitude, longitude: item.location.longitude})
-    );
-  }
+  const points: Point[] = nearOffers.map((item) => ({id:item.id, title:item.title, latitude: item.location.latitude, longitude: item.location.longitude}));
+
   if(offer){
-    points.push({offerId: offer.id, title:offer.title, latitude: offer.location.latitude, longitude: offer.location.longitude});
+    points.push({id: offer.id, title:offer.title, latitude: offer.location.latitude, longitude: offer.location.longitude});
   }
-  const topOffer: TopOffer = {cardsCount: nearOffers.length, offers: nearOffers};
-  const currentPoint = points.find((point) => point.offerId === Number(id));
+  const currentPoint = points.find((point) => point.id === Number(id));
   const selectedPoint = (currentPoint ?? null);
 
   if(offer){
@@ -63,7 +57,7 @@ function PropertyPage(): JSX.Element {
                   <span>Premium</span>
                 </div>
                 <div className="property__name-wrapper">
-                  <h1 className="property__name" title={`offer/${id}`}>
+                  <h1 className="property__name" title={`offer/${id ? id : ''}`}>
                     {offer?.title}
                   </h1>
                 </div>
@@ -130,7 +124,7 @@ function PropertyPage(): JSX.Element {
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <OfferCardList className="near-places__list places__list"
                 classOfferPrefix="near-places"
-                topOffer={topOffer}
+                offers={nearOffers}
                 onItemOver={() => true}
                 onItemLeave={() => true}
               />
