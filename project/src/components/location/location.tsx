@@ -16,7 +16,7 @@ function Location(item: LocationProps): JSX.Element {
   const handleCityChange = (city:City) => {
     dispatch(changeCity(city));
     dispatch(fetchOfferAction());
-    const offers = selectedOffers.filter((i) => i.city.name === city.name);
+    const offers = selectedOffers.filter((offer) => offer.city.name === city.name);
     dispatch(fillOffers(offers));
   };
 
@@ -25,7 +25,7 @@ function Location(item: LocationProps): JSX.Element {
       <Link className={`locations__item-link tabs__item${(item.city.name === item.selectedCity) ? ' tabs__item--active' : ''}`}
         to='#'
         onClick={() => handleCityChange(item.city)}
-      >{item.city.name}
+      ><span>{item.city.name}</span>
       </Link>
     </li>
   );

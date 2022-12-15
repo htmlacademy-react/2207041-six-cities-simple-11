@@ -5,10 +5,6 @@ export enum AppSettings {
   CardImageHeight = 200
 }
 
-export const tabIndex = {
-  tabIndex: 0
-};
-
 export enum AppRoute {
   Main = '/main',
   LoginPage = '/login',
@@ -100,4 +96,9 @@ export const CITIES: Cities = [
 ];
 
 export const ONE_STAR = 20;
+
+export enum ResponseFlag {
+  Success = 'SUCCESS',
+  Error = 'ERROR'
+}
 

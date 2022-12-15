@@ -1,9 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app';
 import { addReview } from '../../store/api-actions/api-actions';
 import { Review } from '../../types/types';
 import {toast} from 'react-toastify';
+import { ResponseFlag } from '../../types/constants';
 
 export enum ReviewTextLength {
   Min = 50,
@@ -12,7 +13,7 @@ export enum ReviewTextLength {
 
 function ReviewForm(): JSX.Element {
   const stateReview = useAppSelector((state) => state.stateReview);
-  const stateError = useAppSelector((state) => state.error);
+  const messageError = useAppSelector((state) => state.error);
   const {id} = useParams();
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userData);
@@ -50,14 +51,18 @@ function ReviewForm(): JSX.Element {
         },
         date: new Date().toISOString()
       });
-      if(stateError){
-        toast.error(stateError);
-      }else{
-        formData.rating = '';
-        formData.review = '';
-      }
     }
   };
+
+  useEffect(() => {
+    if(messageError === ResponseFlag.Success){
+      setFormData({rating:'', review:''});
+    }else
+    {
+      toast.error(messageError);
+    }
+  }, [messageError]);
+
 
   return(
     <form className="reviews__form form" action="" method="post" onSubmit={handleSubmit}>

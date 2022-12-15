@@ -1,18 +1,10 @@
 import { Link } from 'react-router-dom';
-import LocationList from '../../components/location-list/location-list';
-import { useAppSelector } from '../../hooks/use-app';
 import { AppRoute } from '../../types/constants';
 
 function NotFoundPage(): JSX.Element {
-  const selectedCity = useAppSelector((state) => state.city);
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
-      <div className="tabs">
-        <section className="locations container">
-          <LocationList selectedCity={selectedCity} />
-        </section>
-      </div>
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">

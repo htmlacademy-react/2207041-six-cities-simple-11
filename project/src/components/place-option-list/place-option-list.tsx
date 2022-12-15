@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/use-app';
 import { sortOffersPriceHighLow, sortOffersPriceLowHigh, sortOffersTopRateFirst } from '../../store/actions/actions';
 import { fetchOfferAction } from '../../store/api-actions/api-actions';
-import { SortMenu, tabIndex } from '../../types/constants';
+import { SortMenu } from '../../types/constants';
 
 function PlaceOptionList(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,9 +17,9 @@ function PlaceOptionList(): JSX.Element {
 
   const [selectedValue, setSelectedValue] = useState<string>(SortMenu.Default);
 
-  const sortOffers = (val: string) => {
+  const sortOffers = (sortType: string) => {
     if(offers.length > 0){
-      switch (val) {
+      switch (sortType) {
         case SortMenu.PriceLowHigh:
           dispatch(sortOffersPriceLowHigh(offers));
           break;
@@ -33,18 +33,18 @@ function PlaceOptionList(): JSX.Element {
           dispatch(fetchOfferAction());
           break;
       }
-      setSelectedValue(val);
+      setSelectedValue(sortType);
     }
   };
 
   const listItems = menuItems.map((item) =>
-    <li onClick={() => sortOffers(item)} key={item} className={`places__option places__option${(item === selectedValue) ? '--active' : ''}`} {...tabIndex}>{item}</li>
+    <li onClick={() => sortOffers(item)} key={item} className={`places__option places__option${(item === selectedValue) ? '--active' : ''}`} tabIndex={0}>{item}</li>
   );
 
   return(
     <div>
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" {...tabIndex} onMouseOver={onItemOver}>
+      <span className="places__sorting-type" tabIndex={0} onMouseOver={onItemOver}>
         {selectedValue}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
