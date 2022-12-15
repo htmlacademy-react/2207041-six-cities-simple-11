@@ -86,7 +86,7 @@ function PropertyPage(): JSX.Element {
                   </li>
                 </ul>
                 <div className="property__price">
-                  <b className="property__price-value">{offer?.price}</b>
+                  <b className="property__price-value">&euro;{offer?.price}</b>
                   <span className="property__price-text">&#47;&nbsp;night</span>
                 </div>
                 <div className="property__inside">
