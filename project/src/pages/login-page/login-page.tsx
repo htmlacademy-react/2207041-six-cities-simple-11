@@ -29,14 +29,14 @@ function LoginPage(): JSX.Element {
     dispatch(loginAction(authData));
   };
 
-  const pwdExp = new RegExp(/^(?=.*\d)(?=.*[a-z]).{1,}$/);
+  const passwordExpression = new RegExp(/^(?=.*\d)(?=.*[a-z]).{1,}$/);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef?.current !== null && passwordRef?.current !== null
       && loginRef?.current.value !== '' && passwordRef.current?.value !== '') {
-      if(pwdExp.test(passwordRef.current.value) === false){
-        toast.error('Password must be more than 1 characters, one number and one capital letter');
+      if(passwordExpression.test(passwordRef.current.value) === false){
+        toast.error('Password must be more than 1 latin characters, one number and one capital letter');
       }else{
         onSubmit({
           login: loginRef.current.value,
@@ -48,8 +48,8 @@ function LoginPage(): JSX.Element {
     }
   };
 
-  const handleCityClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleCityClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
     dispatch(changeCity(randomCity));
     dispatch(fetchOfferAction());
     navigate(AppRoute.Main);

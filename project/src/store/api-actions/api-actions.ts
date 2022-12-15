@@ -1,9 +1,9 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {APIRoute, AuthorizationStatus} from '../../types/constants';
+import {APIRoute, AuthorizationStatus, ResponseFlag} from '../../types/constants';
 import {AuthData, Offer, Offers, Review, Reviews, UserData} from '../../types/types';
 import { AppDispatch, RootState } from '..';
-import { loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOffersDataLoadingStatus, setStateReview, setUserData, sortReviews } from '../actions/actions';
+import { loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus, setStateReview, setUserData, sortReviews } from '../actions/actions';
 import { dropToken, saveToken } from '../../services/token';
 
 export const fetchOfferAction = createAsyncThunk<void, undefined, {
@@ -14,9 +14,13 @@ export const fetchOfferAction = createAsyncThunk<void, undefined, {
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(setOffersDataLoadingStatus(true));
-    const {data} = await api.get<Offers>(APIRoute.Hotels);
-    dispatch(loadOffers(data));
-    dispatch(setOffersDataLoadingStatus(false));
+    try{
+      const {data} = await api.get<Offers>(APIRoute.Hotels);
+      dispatch(loadOffers(data));
+      dispatch(setOffersDataLoadingStatus(false));
+    }catch(error){
+      dispatch(setOffersDataLoadingStatus(true));
+    }
   },
 );
 
@@ -71,8 +75,15 @@ export const fetchOfferPropertyAction = createAsyncThunk<void, string, {
 }>(
   'data/fetchOfferProperty',
   async (id, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer>(`${APIRoute.HotelId}${id}`);
-    dispatch(loadOfferProperty(data));
+    try{
+      dispatch(setOfferDataLoadingStatus(true));
+      const {data} = await api.get<Offer>(`${APIRoute.HotelId}${id}`);
+      dispatch(loadOfferProperty(data));
+      dispatch(setOfferDataLoadingStatus(false));
+    }
+    catch(error){
+      dispatch(setOfferDataLoadingStatus(false));
+    }
   }
 );
 
@@ -107,12 +118,12 @@ export const addReview = createAsyncThunk<void, Review, {
   extra: AxiosInstance;
 }>(
   'data/addReview',
-  ({id, comment, rating}, {dispatch, extra: api}) => {
+  async ({id, comment, rating}, {dispatch, extra: api}) => {
     try{
-      dispatch(setError(''));
       dispatch(setStateReview(true));
-      api.post(`${APIRoute.Comments}${id}`, {comment, rating});
+      await api.post(`${APIRoute.Comments}${id}`, {comment, rating});
       dispatch(fetchReviews(id.toString()));
+      dispatch(setError(ResponseFlag.Success));
     }
     catch(error){
       if (typeof error === 'string') {

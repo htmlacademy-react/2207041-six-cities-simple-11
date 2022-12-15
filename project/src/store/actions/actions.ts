@@ -11,12 +11,12 @@ export const fillOffers = createAction('city/fillOffers', (offers: Offers) => ({
 
 export const sortOffersPriceLowHigh = createAction('city/sortOffersPriceLowHigh', (offers: Offers) => ({
   type: SortMenu.PriceLowHigh,
-  payload: offers.slice().sort((a, b) => {
-    if(a.price > b.price)
+  payload: offers.slice().sort((item1, item2) => {
+    if(item1.price > item2.price)
     {
       return 1;
     }
-    if(a.price < b.price)
+    if(item1.price < item2.price)
     {
       return -1;
     }
@@ -25,12 +25,12 @@ export const sortOffersPriceLowHigh = createAction('city/sortOffersPriceLowHigh'
 
 export const sortOffersPriceHighLow = createAction('city/sortOffersPriceHighLow', (offers: Offers) => ({
   type: SortMenu.PriceHighLow,
-  payload: offers.slice().sort((a, b) => {
-    if(a.price > b.price)
+  payload: offers.slice().sort((item1, item2) => {
+    if(item1.price > item2.price)
     {
       return -1;
     }
-    if(a.price < b.price)
+    if(item1.price < item2.price)
     {
       return 1;
     }
@@ -39,12 +39,12 @@ export const sortOffersPriceHighLow = createAction('city/sortOffersPriceHighLow'
 
 export const sortOffersTopRateFirst = createAction('city/sortOffersTopRateFirst', (offers: Offers) => ({
   type: SortMenu.TopRateFirst,
-  payload: offers.slice().sort((a, b) => {
-    if(a.rating < b.rating)
+  payload: offers.slice().sort((item1, item2) => {
+    if(item1.rating < item2.rating)
     {
       return 1;
     }
-    if(a.rating > b.rating)
+    if(item1.rating > item2.rating)
     {
       return -1;
     }
@@ -53,12 +53,12 @@ export const sortOffersTopRateFirst = createAction('city/sortOffersTopRateFirst'
 
 export const sortReviews = createAction('city/sortReview', (reviews: Reviews) => ({
   type: 'SortReview',
-  payload: reviews.slice().sort((a, b) => {
-    if(a.date > b.date)
+  payload: reviews.slice().sort((item1, item2) => {
+    if(item1.date > item2.date)
     {
       return -1;
     }
-    if(a.date < b.date)
+    if(item1.date < item2.date)
     {
       return 1;
     }
@@ -68,6 +68,8 @@ export const sortReviews = createAction('city/sortReview', (reviews: Reviews) =>
 export const loadOffers = createAction<Offers>('data/loadOffers');
 
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+
+export const setOfferDataLoadingStatus = createAction<boolean>('data/setOfferDataLoadingStatus');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 

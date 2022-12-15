@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, AppSettings, ONE_STAR } from '../../types/constants';
 import { Offer } from '../../types/types';
+import { setUpperFirstLetter } from '../../utils/utils';
 import PlaceCardMark from '../place-card-mark/place-card-mark';
 
 type OfferCardProps = {
@@ -18,7 +19,7 @@ function OfferCard(offerCardProps: OfferCardProps): JSX.Element {
       onMouseOver={() => offerCardProps.onItemOver(offer.id)}
       onMouseLeave={offerCardProps.onItemLeave}
     >
-      <PlaceCardMark offer={offer} />
+      <PlaceCardMark className='place-card__mark' offer={offer} />
       <div className={`${offerCardProps.classPrefix}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Properties}${offer.id}`}>
           <img className="place-card__image"
@@ -45,7 +46,7 @@ function OfferCard(offerCardProps: OfferCardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={`${AppRoute.Properties}${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{setUpperFirstLetter(offer.type)}</p>
       </div>
     </article>
   );

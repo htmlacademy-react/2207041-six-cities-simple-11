@@ -52,7 +52,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [city.location.latitude, city.location.longitude, city.location.zoom, map, points, selectedPoint]);
 
-  return <section className={props.className} ref={mapRef}></section>;
+  return <section className={props.className} ref={mapRef} style={{backgroundImage: 'none'}}></section>;
 }
 
 export default Map;
