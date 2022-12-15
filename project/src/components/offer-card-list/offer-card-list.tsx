@@ -1,8 +1,8 @@
-import { TopOffer } from '../../types/types';
+import { Offers } from '../../types/types';
 import OfferCard from '../offer-card/offer-card';
 
 type OfferCardProps = {
-  topOffer: TopOffer;
+  offers: Offers;
   onItemOver(offerId: number): void;
   onItemLeave(): void;
   className: string;
@@ -10,12 +10,11 @@ type OfferCardProps = {
 }
 
 function OfferCardList(offerCardProps: OfferCardProps): JSX.Element {
-  const cardsCount = offerCardProps.topOffer.cardsCount;
-  const offers = offerCardProps.topOffer.offers;
+  const offers = offerCardProps.offers;
 
   return(
     <div className={offerCardProps.className}>
-      {offers.slice(0, cardsCount).map((offer) => (
+      {offers.map((offer) => (
         <OfferCard
           key={offer.id}
           offer={offer}

@@ -1,30 +1,26 @@
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
-import { Point, TopOffer } from '../../types/types';
-import { AppRoute, AppSettings } from '../../types/constants';
+import { Point } from '../../types/types';
 import Map from '../../components/map/map';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import LocationList from '../../components/location-list/location-list';
-import { useAppSelector } from '../../hooks/useApp';
+import { useAppSelector } from '../../hooks/use-app';
 import PlaceOptionList from '../../components/place-option-list/place-option-list';
 import HeaderNav from '../../components/header-nav/header-nav';
-import { useNavigate } from 'react-router-dom';
-
+import { setOfferDataLoadingStatus } from '../../store/actions/actions';
+import { store } from '../../store';
+import Spinner from '../spinner/spinner';
 
 function MainPage(): JSX.Element {
-  const navigate = useNavigate();
   const selectedCity = useAppSelector((state) => state.city);
   const selectedOffers = useAppSelector((state) => state.offers.filter((i) => i.city.name === selectedCity.name));
-  const topOfferCity: TopOffer = {cardsCount: AppSettings.CardsCount, offers: selectedOffers};
   const city = selectedOffers.length > 0 ? selectedOffers[0].city : selectedCity;
-  const points: Point[] = [];
-  selectedOffers.map((item) =>
-    points.push({offerId:item.id, title:item.title, latitude: item.location.latitude, longitude: item.location.longitude})
-  );
+  const points: Point[] = selectedOffers.map((item) => ({id:item.id, title:item.title, latitude: item.location.latitude, longitude: item.location.longitude}));
   const [selectedPoint, setSelectedPoint] = useState<Point|null>(null);
+  const offersLoadingStatus = useAppSelector<boolean>((state) => state.offersLoadingStatus);
 
-  const onItemOver = (offerId: number) => {
+  const onItemOver = (id: number) => {
     const currentPoint = points.find((point) =>
-      point.offerId === offerId,
+      point.id === id,
     );
     setSelectedPoint(currentPoint ?? null);
   };
@@ -34,13 +30,15 @@ function MainPage(): JSX.Element {
   };
 
   useEffect(() => {
-    if(selectedOffers?.length === 0){
-      navigate(AppRoute.MainEmptyPage);
-    }
+    store.dispatch(setOfferDataLoadingStatus(true));
   });
 
+  if(offersLoadingStatus){
+    return <Spinner/>;
+  }
+
   return (
-    <Fragment>
+    <div className="page page--gray page--main">
       <HeaderNav />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -51,13 +49,13 @@ function MainPage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{topOfferCity.offers.length} places to stay in {selectedCity.name}</b>
+              <b className="places__found">{selectedOffers.length} places to stay in {selectedCity.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <PlaceOptionList />
               </form>
               <OfferCardList className="cities__places-list places__list tabs__content"
                 classOfferPrefix="cities"
-                topOffer={topOfferCity}
+                offers={selectedOffers}
                 onItemOver={(offerId: number) => onItemOver(offerId)}
                 onItemLeave={onItemLeave}
               />
@@ -68,7 +66,7 @@ function MainPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </Fragment>
+    </div>
   );
 }
 

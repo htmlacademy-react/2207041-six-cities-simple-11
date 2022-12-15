@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/useApp';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app';
 import { logoutAction } from '../../store/api-actions/api-actions';
 
 function UserAuth(): JSX.Element {

@@ -1,45 +1,47 @@
 import { useParams } from 'react-router-dom';
 import ReviewPlace from '../../components/review-place/review-place';
-import { CITIES } from '../../mocks/coordinates';
 import Map from '../../components/map/map';
 import OfferCardList from '../../components/offer-card-list/offer-card-list';
-import { Offer, Offers, Point, TopOffer } from '../../types/types';
+import { Offer, Offers, Point } from '../../types/types';
 import { Fragment, useEffect } from 'react';
-import { useAppSelector } from '../../hooks/useApp';
+import { useAppSelector } from '../../hooks/use-app';
 import HeaderNav from '../../components/header-nav/header-nav';
 import { store } from '../../store';
 import { fetchNearOffers, fetchOfferPropertyAction, fetchReviews } from '../../store/api-actions/api-actions';
+import { CITIES, ONE_STAR } from '../../types/constants';
+import PlaceCardMark from '../../components/place-card-mark/place-card-mark';
+import { setUpperFirstLetter } from '../../utils/utils';
 import NotFoundPage from '../not-found-page/not-found-page';
+import Spinner from '../spinner/spinner';
+
+const IMAGE_COUNT = 6;
 
 function PropertyPage(): JSX.Element {
-  const params = useParams();
-  const id: string = params.id ?? '';
+  const {id} = useParams();
   const offer = useAppSelector<Offer|null>((state) => state.offer);
+  const offerLoadingStatus = useAppSelector<boolean>((state) => state.offerLoadingStatus);
 
   useEffect(() => {
-    store.dispatch(fetchNearOffers(id));
-    store.dispatch(fetchReviews(id));
+    if(id){
+      store.dispatch(fetchOfferPropertyAction(id ? id : ''));
+    }
   }, [id]);
 
   useEffect(() => {
-    if(!offer) {
-      store.dispatch(fetchOfferPropertyAction(id));
+    if(offer){
+      store.dispatch(fetchNearOffers(offer.id.toString()));
+      store.dispatch(fetchReviews(offer.id.toString()));
     }
-  }, [offer, id]);
+  }, [offer]);
 
   const nearOffers = useAppSelector<Offers>((state) => state.nearOffers);
   const city = offer ? offer.city : CITIES[0];
-  const points: Point[] = [];
-  if(nearOffers.length > 0){
-    nearOffers.map((item) =>
-      points.push({offerId:item.id, title:item.title, latitude: item.location.latitude, longitude: item.location.longitude})
-    );
-  }
+  const points: Point[] = nearOffers.map((item) => ({id:item.id, title:item.title, latitude: item.location.latitude, longitude: item.location.longitude}));
+
   if(offer){
-    points.push({offerId: offer.id, title:offer.title, latitude: offer.location.latitude, longitude: offer.location.longitude});
+    points.push({id: offer.id, title:offer.title, latitude: offer.location.latitude, longitude: offer.location.longitude});
   }
-  const topOffer: TopOffer = {cardsCount: nearOffers.length, offers: nearOffers};
-  const currentPoint = points.find((point) => point.offerId === Number(id));
+  const currentPoint = points.find((point) => point.id === Number(id));
   const selectedPoint = (currentPoint ?? null);
 
   if(offer){
@@ -50,7 +52,7 @@ function PropertyPage(): JSX.Element {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {offer?.images.map((item) => (
+                {offer?.images.slice(0, IMAGE_COUNT).map((item) => (
                   <div className="property__image-wrapper" key={item}>
                     <img className="property__image" src={item} alt="Phоto studio"/>
                   </div>
@@ -59,24 +61,22 @@ function PropertyPage(): JSX.Element {
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-                <div className="property__mark">
-                  <span>Premium</span>
-                </div>
+                <PlaceCardMark className='property__mark' offer={offer} />
                 <div className="property__name-wrapper">
-                  <h1 className="property__name" title={`offer/${id}`}>
+                  <h1 className="property__name" title={`offer/${id ? id : ''}`}>
                     {offer?.title}
                   </h1>
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: `${Math.round(offer?.rating || 0) * 20}%`}}></span>
+                    <span style={{width: `${Math.round(offer?.rating || 0) * ONE_STAR}%`}}></span>
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="property__rating-value rating__value">{offer?.rating}</span>
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    {offer?.type}
+                    {setUpperFirstLetter(offer?.type)}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
                     {offer?.bedrooms} Bedrooms
@@ -108,9 +108,10 @@ function PropertyPage(): JSX.Element {
                     <span className="property__user-name">
                       {offer?.host.name}
                     </span>
+                    {offer?.host.isPro &&
                     <span className="property__user-status">
                       Pro
-                    </span>
+                    </span>}
                   </div>
                   <div className="property__description">
                     <p className="property__text">
@@ -123,14 +124,14 @@ function PropertyPage(): JSX.Element {
                 <ReviewPlace />
               </div>
             </div>
-            <Map className="property__map map" city={city} points={points} selectedPoint={selectedPoint}></Map>
+            <Map className='property__map map' city={city} points={points} selectedPoint={selectedPoint}></Map>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <OfferCardList className="near-places__list places__list"
                 classOfferPrefix="near-places"
-                topOffer={topOffer}
+                offers={nearOffers}
                 onItemOver={() => true}
                 onItemLeave={() => true}
               />
@@ -140,7 +141,7 @@ function PropertyPage(): JSX.Element {
       </Fragment>
     );
   }else{
-    return <NotFoundPage/>;
+    return offerLoadingStatus ? <Spinner/> : <NotFoundPage />;
   }
 }
 export default PropertyPage;

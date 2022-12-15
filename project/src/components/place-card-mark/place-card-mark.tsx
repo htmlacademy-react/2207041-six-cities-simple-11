@@ -2,6 +2,7 @@ import { Offer } from '../../types/types';
 
 type PlaceCardMarkProps = {
   offer: Offer;
+  className: string;
 }
 
 function PlaceCardMark(props: PlaceCardMarkProps): JSX.Element {
@@ -9,7 +10,7 @@ function PlaceCardMark(props: PlaceCardMarkProps): JSX.Element {
     <div>
       {
         props.offer.isPremium &&
-        <div className="place-card__mark">
+        <div className={props.className}>
           <span>Premium</span>
         </div>
       }
