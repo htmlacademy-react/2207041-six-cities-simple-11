@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {APIRoute, AuthorizationStatus, ResponseFlag} from '../../types/constants';
 import {AuthData, Offer, Offers, Review, Reviews, UserData} from '../../types/types';
 import { AppDispatch, RootState } from '..';
-import { loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus, setStateReview, setUserData, sortReviews } from '../actions/actions';
+import { loadNearOffers, loadOfferProperty, loadOffers, loadReviews, requireAuthorization, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus, setServerError, setStateReview, setUserData, sortReviews } from '../actions/actions';
 import { dropToken, saveToken } from '../../services/token';
 
 export const fetchOfferAction = createAsyncThunk<void, undefined, {
@@ -18,8 +18,10 @@ export const fetchOfferAction = createAsyncThunk<void, undefined, {
       const {data} = await api.get<Offers>(APIRoute.Hotels);
       dispatch(loadOffers(data));
       dispatch(setOffersDataLoadingStatus(false));
+      dispatch(setServerError(false));
     }catch(error){
-      dispatch(setOffersDataLoadingStatus(true));
+      dispatch(setOffersDataLoadingStatus(false));
+      dispatch(setServerError(true));
     }
   },
 );
