@@ -93,5 +93,9 @@ export const setStateReview = createAction('data/setStateReview', (stateReview: 
   payload: stateReview
 }));
 
+export const setServerError = createAction('data/setServerError', (stateServerError: boolean) => ({
+  payload: stateServerError
+}));
+
 export const redirectToRoute = createAction('app/redirectToRoute', (route: AppRoute) => ({payload: route}));
 
